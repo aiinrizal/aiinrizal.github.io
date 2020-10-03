@@ -15,7 +15,12 @@
     "predeploy":"npm run build",
     "deploy":"gh-pages -d build",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install npm && run build"
+  },
+
+  "engines": {
+    "node": "14.4.0",
+    "npm": "6.14.8"
   },
   "dependencies": {
     "antd": "^4.6.5",
