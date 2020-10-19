@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 
-
-
-
 const Thesis = props => (
     <tr>
         <td>{props.thesis.user_id}</td>
@@ -66,30 +63,39 @@ handleChange = event => {
     this.setState({ filter: event.target.value });
 };
 
-render(){ 
+generatePDF(element) {
+    var restorepage = document.body.innerHTML;
+    var printcontent = document.getElementById(element).innerHTML;
 
-    
+    document.body.innerHTML = printcontent;
+    window.print();
+    document.body.innerHTML = restorepage;
+
+
+}
+
+render(){ 
     return (
         <div>
-
-            
-            <h3><center>Thesis Management System</center></h3>
-            <table className="table table-striped" style={{ marginTop: 20 }}>
+            <button onClick={() => {
+                this.generatePDF('ThesisList')
+            }} type="button" class="btn btn-info text-right">Generate Report</button>
+            <div id="ThesisList">
+                            <h3><center>Thesis Management System</center></h3>
+                <table className="table table-striped" style={{ marginTop: 20 }}>
                     <thead>
                         <tr>
                             <th>Matric Number</th>
                             <th>Title</th>
                             <th>Author</th>
-                            
                         </tr>
                     </thead>
                     <tbody>
                         { this.ThesisList() }
                     </tbody>
                 </table>
-                </div>
-                
-        
+            </div> 
+        </div>
     );
 }
 }

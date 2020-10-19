@@ -1,4 +1,5 @@
 import React from 'react';
+import { Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,13 +11,13 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 
 ReactDOM.render(
-  <Router basename={process.env.PUBLIC_URL}>
+
   <React.StrictMode>
     <App />
     
   </React.StrictMode>,
   
   document.getElementById('root')
-  </Router>
+ 
 );
 

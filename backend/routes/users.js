@@ -3,8 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require ('jsonwebtoken');
 let User = require('../models/user.model');
 
-
-
 router.route('/').get((req, res) => {
     User.find()
     .then(users => res.json(users))
@@ -30,7 +28,8 @@ router.route('/register').post((req, res) =>{
     const regexStudent = /^[a-zA-Z]+[-_\.]?[a-zA-Z0-9]+@(raudah\.usim\.edu\.my)$/;
     const regexStaf =  /^[a-zA-Z]+[-_\.]?[a-zA-Z0-9]+@(usim\.edu\.my)$/;
     const foundStudent = email.match(regexStudent);
-    const foundStaf = email.match(regexStaf)
+    const foundStaf = email.match(regexStaf);
+    
     if (!foundStudent && !foundStaf ) {
         return res.send("Please use USIM registered email")
     }
@@ -72,7 +71,8 @@ router.route('/register').post((req, res) =>{
     
         NewUser.save()
         .then(() => res.json('User added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+        //.catch(err => res.status(400).json('Error: ' + err));
+        .catch(err => res.json("" + err));
     }
     
    
@@ -87,11 +87,11 @@ router.route('/login').post((req, res, next) => {
     const password = req.body.password;
 
     if (!user_id|| !password) {
-        return res.send('Username and password required')
+        res.status(200).json({
+            message: "Please fill in your email and password"
+          });
     }
 
-
-    
   User.findOne({ user_id
       
   })
@@ -123,9 +123,10 @@ router.route('/login').post((req, res, next) => {
             );
 
             res.status(200).json({
-                message: "welcome,  " +user.fullname,
+                message: "welcome, " +user.fullname,
                 token: token
             });
+
         }
     });
 })

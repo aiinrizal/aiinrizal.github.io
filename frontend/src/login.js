@@ -35,6 +35,7 @@ export default class Login extends Component {
     const user_id = event.target.user_id.value;
     const password = event.target.Password.value;
     this.loginUser(user_id,password)
+    
    // console.log("try" +user_id +password)
 
 }}>

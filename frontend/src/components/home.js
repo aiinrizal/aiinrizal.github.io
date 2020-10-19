@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import axios from 'axios';
+import Navbar from './navbar.component';
+
 
 export default class Home extends Component {
 
 render(){
     return (
     <div>
-        <h1><center>Hello this is home page</center></h1>
+
+        <Navbar />
+      
+        
     </div>
         )
 }

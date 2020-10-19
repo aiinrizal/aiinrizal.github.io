@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 //import {Input} from 'antd';
 
 function Navbar() {
-
-
-
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <Link to="/" className="navbar-brand">ThesisQ</Link>
@@ -22,17 +19,12 @@ function Navbar() {
                         <li className="navbar-item">
                             <Link to="/create" className="nav-link">Add Thesis</Link>
                         </li>
-                        <li className="navbar-item">
-                            <Link to="/register" className="nav-link">Add User</Link>
-                        </li>
 
                         <li className="navbar-item">
                             <Link to="/profile" className="nav-link">Registered Users</Link>
                         </li>
 
-                        <li className="navbar-item">
-                            <Link to="/search" className="nav-link">Search</Link>
-                        </li>
+                        
 
                     </ul>
                     <form class="form-inline my-2 my-lg-0">

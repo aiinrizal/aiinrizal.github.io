@@ -69,17 +69,32 @@ export default class CreateUser extends Component {
             
         }
 
+        console.log(NewUser);
         axios.post('http://localhost:5000/users/register', NewUser)
-        .then(res => alert(res.data));
+        .then(res => {
+            if (res.data === 'User added!'){
+                alert(res.data)
+                window.location = '/login';
+            }
+
+            else {
+               // alert(res.data)
+              if(res.data.slice(0,5)=== 'Mongo'){
+                alert("This matric number has been registered here")
+              }
+            
+               
+            }
+            
+        });
 
         
-        //window.location = '/user'
-
+        
     }
 render(){
     return (
         <div style={{marginTop: 20}}>
-        <h3>Add User and Admin</h3> 
+        <h3><center>Register Now!</center></h3> 
         <form onSubmit={this.onSubmit}>
             <div className="form-group"><br />
 
@@ -126,7 +141,6 @@ render(){
                                 onChange={this.onChangeRole}
                                 className="form-control"
                         ><br />
-                        <option disabled>Role</option>
                         <option value="Role">Role</option>
                         <option value="Student">Student</option>
                         <option value="Admin">Admin</option>

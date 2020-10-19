@@ -38,6 +38,7 @@ function App() {
       <Route path="/login" component={Login} />
       <Route path="/profile" component={UserList} />
       <Route path="/setting/:user_id" component={EditUser} />
+      <Route path="/home" component={Home} />
 
       <footer id="footer">
         <div className="empty-container" style={{ marginTop: 20 }}></div>

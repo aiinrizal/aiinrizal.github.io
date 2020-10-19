@@ -91,6 +91,7 @@ export default class ThesisCreate extends Component {
         onSubmit(e) {
             alert('Thesis successfully added');
             e.preventDefault();
+            //window.location = '/thesis';
 
             const newThesis = {
                 user_id:this.state.user_id,
