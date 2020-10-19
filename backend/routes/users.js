@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require ('jsonwebtoken');
 let User = require('../models/user.model');
 
+//ayang gedik
 router.route('/').get((req, res) => {
     User.find()
     .then(users => res.json(users))
