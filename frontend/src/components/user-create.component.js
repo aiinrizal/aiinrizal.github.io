@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { message } from 'antd';
+import swal from 'sweetalert';
+
 
 
 
@@ -69,22 +72,41 @@ export default class CreateUser extends Component {
             
         }
 
-        console.log(NewUser);
+        
         axios.post('http://localhost:5000/users/register', NewUser)
         .then(res => {
             if (res.data === 'User added!'){
-                alert(res.data)
-                window.location = '/login';
+                swal("Registration Complete", "You are now ThesisQ member", "success");
+                // window.location = '/login';
             }
 
+            else if (res.data.status === 'email_error'){
+                swal("Wrong Email",res.data.message, "warning");
+            }
+
+            else if (res.data.status === 'Student_warning'){
+                swal("Wrong Email",res.data.message, "warning");
+            }
+
+            else if (res.data.status === 'Admin_warning'){
+                swal("Wrong Email",res.data.message, "warning");
+            }
+
+            else if (res.data.status === 'Password_error'){
+                swal("Password Complexity", res.data.message, "warning");
+            }
+            
             else {
-               // alert(res.data)
-              if(res.data.slice(0,5)=== 'Mongo'){
-                alert("This matric number has been registered here")
-              }
+                swal("Oppss","Something is not okay, try again", "error");
             
                
             }
+
+            //console.log(res.data.status);
+            
+            // if (res.data.status === "official"){
+            //     swal("Good job!", "You clicked the button!", "success");
+            // }
             
         });
 
