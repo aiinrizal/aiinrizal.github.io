@@ -16,6 +16,7 @@ function Navbar() {
                         <li className="navbar-item active">
                             <Link to="/thesis" className="nav-link">Thesis</Link>
                         </li>
+
                         <li className="navbar-item">
                             <Link to="/create" className="nav-link">Add Thesis</Link>
                         </li>
@@ -24,13 +25,20 @@ function Navbar() {
                             <Link to="/profile" className="nav-link">Registered Users</Link>
                         </li>
 
+                        <li className="navbar-item">
+                            <Link to="/chart" className="nav-link">Data Visualisation</Link>
+                        </li>
+
+                        <li className="navbar-item">
+                            <Link to="/search" className="nav-link">Search</Link>
+                        </li>
                         
 
                     </ul>
-                    <form class="form-inline my-2 my-lg-0">
+                    {/* <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onChange={(e)=>this.searchSpace(e)}/>
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Search</button>
-    </form> 
+    </form>  */}
 
                     
 

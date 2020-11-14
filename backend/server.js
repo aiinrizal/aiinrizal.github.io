@@ -1,4 +1,5 @@
 const express = require('express');
+const puppeteer = require ('puppeteer');
 const cors = require ('cors');
 const mongoose = require('mongoose');
 const path = require ('path');
@@ -40,12 +41,15 @@ app.use('/thesis', thesisRouter);
 app.use('/users', userRouter); 
 //app.use('/', AuthRoute);
 
+
 if(process.env.ATLAS_URI === 'production') {
     app.use(express.static('frontend/build'));
     app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'frontend','build','index.html'));
     })
 }
+
+
 
 
 app.listen(PORT, () =>{

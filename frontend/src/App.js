@@ -17,6 +17,7 @@ import NavbarUser from './components/navbar-user.component';
 import EditUser from './components/user-edit.component';
 import UserList from './components/user-list.component';
 import Home from './components/home';
+import DataVisualisation from './components/data-visualisation.component';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -27,7 +28,8 @@ function App() {
       <Router>
       <div className="container">
       
-      
+      <Navbar />
+      {/* <Search /> */}
       <br />
       <Route path="/" exact component= {Login} />
       <Route path="/thesis" component ={ThesisList} />
@@ -35,10 +37,11 @@ function App() {
       <Route path="/create" component={ThesisCreate} />
       <Route path="/register" component={CreateUser} />
       <Route path="/search" component={Search} />
-      <Route path="/login" component={Login} />
+      {/* <Route path="/login" component={Login} /> */}
       <Route path="/profile" component={UserList} />
       <Route path="/setting/:user_id" component={EditUser} />
       <Route path="/home" component={Home} />
+      <Route path="/chart" component ={DataVisualisation} />
 
       <footer id="footer">
         <div className="empty-container" style={{ marginTop: 20 }}></div>

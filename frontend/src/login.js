@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 import App from './App';
-import { event } from 'jquery';
 import axios from 'axios';
 import CreateUser from './components/user-create.component';
 

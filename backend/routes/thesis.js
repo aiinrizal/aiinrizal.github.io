@@ -37,7 +37,7 @@ router.route('/add').post((req, res) => {
 
 router.route('/:user_id').get((req, res) => {
     Thesis.findById(req.params.user_id)
-    .then(thesis => res.json(thesis))
+    .then(theses => res.json(theses))
     .catch(err => res.status(400).json('Error: ' + err));
 
 });
@@ -52,7 +52,33 @@ router.route('/:user_id').delete((req, res) => {
 });
 
 
-   
+router.route('/search').get((req,res,next) => {
+    var keyword = req.query.thesis_keyword;
+    console.log("keyword: " +keyword)
+    Thesis.find({ 
+        $text: {
+            $search: keyword
+        }
+    }, function (err, result) {
+        res.json(result);
+    }
+    .then(thesis => {
+        thesis.user_id;
+        thesis.thesis_title;
+        thesis.thesis_description;
+        thesis.thesis_author;
+        thesis.thesis_SV;
+        thesis.thesis_program;
+        thesis.thesis_faculty;
+        thesis.thesis_keyword;
+    })
+    .catch(err => res.status(400).json('Error: ' +err))
+})
+    
+        
+        
+
+
 
 router.route('/update/:user_id').post((req, res) => {
     console.log("try edit" +req.params.user_id)
