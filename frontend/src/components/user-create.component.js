@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import axios from 'axios';
 import { message } from 'antd';
 import swal from 'sweetalert';
-
-
-
+//import {ReactPasswordStrength} from 'react-password-strength';
+import PasswordStregthMeter from './PasswordStrengthMeter';
 
 export default class CreateUser extends Component {
     constructor(props) {
@@ -25,6 +24,8 @@ export default class CreateUser extends Component {
             role: '',
         }
     }
+
+    
 
     onChangeUser_id(e) {
         this.setState({
@@ -109,11 +110,11 @@ export default class CreateUser extends Component {
             // }
             
         });
-
-        
         
     }
+    
 render(){
+    
     return (
         <div style={{marginTop: 20}}>
         <h3><center>Register Now!</center></h3> 
@@ -149,14 +150,18 @@ render(){
 
                 
                 <label>Password: </label>
-                <input placeholder="Please Use A Complex Password"
+                <div className="form-group mb-1"> 
+                    <input placeholder="Please Use A Complex Password"
                         type="password"
                         required
-                        className="form-control"
+                        className="form-control shadow-none"
                         value={this.state.password}
                         onChange={this.onChangePass}
-                        /><br />
-
+                        //
+                    />
+                </div>
+                {/* <PasswordStregthMeter /> */}
+                <br />
                     <label>Role: </label><br />
                         <select value={this.state.role} 
                                 
@@ -173,8 +178,6 @@ render(){
                             <input type="submit" value="Confirm" className="btn btn-primary" />
                             </center>
                         </div>
-
-                           
                     </div>
                 </form>
             </div>

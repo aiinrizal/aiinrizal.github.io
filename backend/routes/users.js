@@ -12,9 +12,6 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/register').post((req, res) =>{
-        
-    
-    
     bcrypt.hash(req.body.password, 10, function(err, hashedPass){
             if(err) {
                 res.json({
