@@ -3,19 +3,28 @@ const puppeteer = require ('puppeteer');
 const cors = require ('cors');
 const mongoose = require('mongoose');
 const path = require ('path');
-
+var bodyParser = require('body-parser');
 
 require('dotenv').config({ path: '.env'});
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-//var app = express();
-//app.set("port", PORT);
+ // create application/json parser
+var jsonParser = bodyParser.json();
+
+ // create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false})
 
 //mongodb+srv://ainhazwani98:Ain981217@@thesisq.sw0rc.azure.mongodb.net/ThesisQ?retryWrites=true&w=majority;
 
 app.use(cors());
 app.use(express.json());
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 app.options('*', cors());
 //app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -37,8 +46,8 @@ const thesisRouter = require('./routes/thesis');
 const AuthRoute = require('./routes/auth');
 
 
-app.use('/thesis', thesisRouter);
-app.use('/users', userRouter); 
+app.use('/thesis', jsonParser, thesisRouter);
+app.use('/users', jsonParser, userRouter); 
 //app.use('/', AuthRoute);
 
 

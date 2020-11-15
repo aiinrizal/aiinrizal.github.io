@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+const { urlencoded } = require('body-parser');
 const jwt = require ('jsonwebtoken');
 let User = require('../models/user.model');
 
@@ -142,10 +143,14 @@ router.route('/register').post((req, res) =>{
 
 router.route('/login').post((req, res, next) => {
     
-    const user_id = req.body.user_id;
-    const password = req.body.password;
+    var user_id = req.body.user_id;
+    var password = req.body.password;
 
-    if (!user_id|| !password) {
+    console.log(user_id);
+    console.log("user id" +user_id);
+    console.log("password" +password);
+
+    if (!user_id||!password) {
         res.status(200).json({
             message: "Please fill in your email and password"
           });
@@ -157,7 +162,7 @@ router.route('/login').post((req, res, next) => {
   
   .then(user => {
 
-    bcrypt.compare(req.body.password,user.password, (err, result) => {
+    bcrypt.compare(password,user.password, (err, result) => {
         if(err){
             //return res.send('Invalid password.')
             

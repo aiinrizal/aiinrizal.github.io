@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 //import '../../src/Style.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
+
 
 const Thesis = props => (
     <tr>
@@ -28,16 +30,17 @@ export default class ThesisSearch extends React.Component {
         event.preventDefault();
     }
     
-    ThesisSearch(thesis_keyword) {
-
-    const Keyword = {
-        thesis_keyword: Keyword
-    }
+    
+    thesisSearch(thesis_key) {
+        const Keyword = {
+            thesis_keyword: thesis_key
+        }
+    
         
-    axios.get('http://localhost:5000/thesis/search',thesis_keyword)
+    axios.get('http://localhost:5000/thesis/search',thesis_key)
 
     .then(res => {
-        this.setState({thesis_keyword: res.data});
+        this.setState({thesis_key: res.data});
     })
     }
     
@@ -74,7 +77,7 @@ export default class ThesisSearch extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        { this.ThesisSearch() }
+                        { this.thesisSearch() }
                     </tbody>
                 </table>
                                     
