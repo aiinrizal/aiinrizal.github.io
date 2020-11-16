@@ -6,6 +6,8 @@ import './App.css';
 import App from './App';
 import axios from 'axios';
 import CreateUser from './components/user-create.component';
+import swal from 'sweetalert';
+
 
 
 export default class Login extends Component {
@@ -21,7 +23,19 @@ export default class Login extends Component {
         }
 
         axios.post ('http://localhost:5000/users/login', user)
-        .then(res => alert(res.data.message));
+        .then(res => {
+
+          if (res.data.status === 'login_ok'){
+            swal("Welcome back",+user.user_id,"Success");
+          }
+          else if (res.data.status === 'email_error_login'){
+            swal("Invalid email","Try again","Warning" );
+          }
+
+          else if (res.data.status === 'password_error_login'){
+            swal("Invalid Password","Password does not match","Warning");
+          }
+        });
         //console.log("login user " +user)
     }
 

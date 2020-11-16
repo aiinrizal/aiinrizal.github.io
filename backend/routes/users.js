@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 
-const { urlencoded } = require('body-parser');
-const jwt = require ('jsonwebtoken');
+const bodyParser = require('body-parser');
+var jwt = require ('jsonwebtoken');
 let User = require('../models/user.model');
 
 
@@ -12,18 +12,13 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: '+ err));
 });
 
-router.route('/register').post((req, res) =>{
-    bcrypt.hash(req.body.password, 10, function(err, hashedPass){
-            if(err) {
-                res.json({
-                    error: err
-                })
-            }
-
+router.route('/register').post((req, res) => {
+    
     const user_id = req.body.user_id;
     const fullname = req.body.fullname;
     const email = req.body.email;
-    const password = hashedPass;
+    const password = req.body.password;
+    //const password = hashedPass;
     const role = req.body.role;
 
     console.log(user_id,
@@ -31,179 +26,152 @@ router.route('/register').post((req, res) =>{
                 email,
                 password,
                 role 
-              )
-
+                )   
     const regexStudent =/^[a-zA-Z0-9]+[-_\.]?[a-zA-Z0-9]+@(raudah\.usim\.edu\.my)$/;
     const regexStaf =/^[a-zA-Z0-9]+[-_\.]?[a-zA-Z0-9]+@(usim\.edu\.my)$/;
     const foundStudent = email.match(regexStudent);
     const foundStaf = email.match(regexStaf);
-
-    // const hasUpperCase = /[A-Z]/.test(password);
-    // const hasLowerCase = /[a-z]/.test(password);
-    // const hasNumbers = /\d/.test(password);
-    // const hasNonalphas = /\W/.test(password);
+ 
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasNonalphas = /\W/.test(password);
+    const hasSymbol = /[?=.*!@#$%^&*]/.test(password);
 
     if (password.length < 8){
-       // alert("bad password");
-        
-        // if (hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas < 3) {
-        //     return res.status(200).json({
-        //         status: "Password_error",
-        //         message: "Please use atlease 1 numeric, 1 symbol, 1 Alphabet"
-        //     })
-        // }
+        return res.status(200).json({
+            status: "Password_error",
+            message: "Please use atlease 8 characters"
+        })
+        }
+                    
+                    
+    if (hasUpperCase + hasLowerCase + hasNumbers + hasNonalphas + hasSymbol < 3) {
+        return res.status(200).json({
+            status: "Password_error",
+            message: "Please use atlease 1 numeric, 1 symbol, 1 Alphabet"
+        })
+        }
 
-    }
+                
 
-    var hasUpperCase = /[A-Z]/;
-     var hasLowerCase = /[a-z]/;
-        var hasNumbers = /\d/;
-        var hasNonalphas = /\W/;
-
-        const A = password.match(hasUpperCase);
-        const B = password.match(hasLowerCase);
-        const C = password.match(hasNumbers);
-        const D = password.match(hasNonalphas);
-
-
-        console.log("ini",A,B,C,D)
-    
-    //const ComplexPassword = password + hasLowerCase + hasNonalphas + hasNumbers + hasUpperCase;
-    // console.log(hasNonalphas,
-    //             hasNumbers,
-    //             hasUpperCase,
-    //             hasLowerCase)
-
-    // if (!hasUpperCase && !hasLowerCase && !hasNumbers && !hasNonalphas){
-    //     return res.status(200).json({
-    //         status: "Password_error",
-    //         message: "Please use atlease 1 numeric, 1 symbol, 1 Alphabet"
-    //     })
-    // }
-
-    //const foundStudent = regexStudent.test(email);
+    console.log(hasSymbol);
     console.log("email: ", email);
     console.log("student: ",foundStudent);
     console.log("staff: ", foundStaf);
 
     if (!foundStudent && !foundStaf) {
-       return res.status(200).json({
-           status: "email_error",
-           message: "Use official email."
-       })
-    
-    }
+        return res.status(200).json({
+        status: "email_error",
+        message: "Use official email."
+        })
+        }
 
     if (foundStudent && role !== "Student") {
         return res.status(200).json({
-            status: "Student_warning",
-            message: "Please assign as student."
-        })    }
+        status: "Student_warning",
+        message: "Please assign as student."
+        })    
+        }
 
     if (foundStaf && role !== "Admin") {
         return res.status(200).json({
-            status: "Admin_warning",
-            message: "Please check your email address correctly."
-        })    }
-    
-    
-        
-    // if (ComplexPassword.length < 8){
-    //     {
-    //         return res.status(200).json({
-    //             status: "Password_warning",
-    //             message: "Password need to be 8 characters minimum, atleast 1 alphabet, 1 numberic, symbols."
-    //         })    }
-    // }
-    
-        
+        status: "Admin_warning",
+        message: "Please check your email address correctly."
+        })    
+        }
+                    
     else {
-        const NewUser = new User({
-            user_id,
-            fullname,
-            email,
-            password,
-            role
-        });
+        bcrypt.hash(password, 10, function(err, hashedPass){
+            if(err) {
+                res.json({
+                    error: err
+                })
+            }
 
-        console.log(NewUser);
-    
-        NewUser.save()
-        .then(() => res.status(200).json('User added!'))
-        .catch(err => res.status(400).json('gdok: '+ err));
-    }
-    
-   
-});
-
- })
- 
-
-router.route('/login').post((req, res, next) => {
-    
-    // const user_id = req.body.user_id;
-    // const password = req.body.password;
-
-    // console.log(user_id);
-    // console.log("user id" +user_id);
-    // console.log("password" +password);
-
-    
-
-  User.findOne({ 
-      user_id : req.body.user_id
-      
-  }
-  
-  )
-
-  
-  
-  .then(user => {
-
-    bcrypt.compare(password,user.password, (err, result) => {
-        if(err){
-            //return res.send('Invalid password.')
-            
-            res.status(401).json({
-                message: "Authentication failed",
-                token: token
+            hashedPass = password;
+            const NewUser = new User({
+                user_id,
+                fullname,
+                email,
+                hashedPass,
+                role
             });
-            
+            console.log(NewUser);
 
+            NewUser.save()
+            .then(() => res.status(200).json('User has successfully added'))
+            .catch(err => res.status(400).json('Error in new user save backend: '+err));
+        })
+        
         }
 
-        if (result) {
-            const token = jwt.sign(
-                {
-                    user_id: user.user_id,
-                    fullname: user.email
-                },
-                "secret",
-                {
-                    expiresIn: "1h"
-                }
-            );
-
+    })
+    
+    
+    router.route('/login').post((req, res, next) => {
+    
+        var user_id = req.body.user_id;
+        var password = req.body.password;
+    
+        console.log(user_id);
+        console.log("user id" +user_id);
+        console.log("password" +password);
+    
+        if (!user_id||!password) {
             res.status(200).json({
-                message: "welcome, " +user.fullname,
-                token: token
-            });
-
+                message: "Please fill in your email and password"
+              });
         }
-    });
-})
-.catch(err => {
-    console.log(err);
-    res.status(200).json({
-      message: "Invalid username or password"
-    });
-  });
-
-
-},
-)
     
+      User.findOne({ user_id
+          
+      })
+      
+      .then(user => {
+    
+        bcrypt.compare(password,user.password, (err, result) => {
+            if(err){
+                //return res.send('Invalid password.')
+                
+                res.status(401).json({
+                    message: "Authentication failed",
+                    token: token
+                });
+                
+    
+            }
+    
+            if (result) {
+                const token = jwt.sign(
+                    {
+                        user_id: user.user_id,
+                        fullname: user.email
+                    },
+                    "secret",
+                    {
+                        expiresIn: "1h"
+                    }
+                );
+    
+                res.status(200).json({
+                    message: "welcome, " +user.fullname,
+                    token: token
+                });
+    
+            }
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(200).json({
+          message: "Invalid username or password"
+        });
+      });
+    
+    
+    },
+    )    
 router.route('/:user_id').get((req,res) => {
     User.findOne(req.user_id)
     .then(user => res.json(user))

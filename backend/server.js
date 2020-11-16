@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.options('*', cors());
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const uri = process.env.ATLAS_URI;
@@ -41,7 +41,9 @@ const AuthRoute = require('./routes/auth');
 
 app.use('/thesis', thesisRouter);
 app.use('/users', userRouter); 
-//app.use('/', AuthRoute);
+app.get('/', (req, res) =>{
+    res.json({message: "Welcome to ThesisQ."});
+});
 
 
 if(process.env.ATLAS_URI === 'production') {
@@ -50,9 +52,6 @@ if(process.env.ATLAS_URI === 'production') {
         res.sendFile(path.resolve(__dirname, 'frontend','build','index.html'));
     })
 }
-
-
-
 
 app.listen(PORT, () =>{
     console.log(`Server is running on port: ${PORT}`);
