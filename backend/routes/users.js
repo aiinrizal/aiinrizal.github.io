@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
+
 const { urlencoded } = require('body-parser');
 const jwt = require ('jsonwebtoken');
 let User = require('../models/user.model');
@@ -140,22 +141,23 @@ router.route('/register').post((req, res) =>{
 
 router.route('/login').post((req, res, next) => {
     
-    var user_id = req.body.user_id;
-    var password = req.body.password;
+    // const user_id = req.body.user_id;
+    // const password = req.body.password;
 
-    console.log(user_id);
-    console.log("user id" +user_id);
-    console.log("password" +password);
+    // console.log(user_id);
+    // console.log("user id" +user_id);
+    // console.log("password" +password);
 
-    if (!user_id||!password) {
-        res.status(200).json({
-            message: "Please fill in your email and password"
-          });
-    }
+    
 
-  User.findOne({ user_id
+  User.findOne({ 
+      user_id : req.body.user_id
       
-  })
+  }
+  
+  )
+
+  
   
   .then(user => {
 
