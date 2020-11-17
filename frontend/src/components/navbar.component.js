@@ -32,6 +32,10 @@ function Navbar() {
                         <li className="navbar-item">
                             <Link to="/search" className="nav-link">Search</Link>
                         </li>
+
+                        <li className="navbar-item">
+                            <Link to="/logout" className="nav-link">Logout</Link>
+                        </li>
                         
 
                     </ul>

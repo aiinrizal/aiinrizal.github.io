@@ -2,8 +2,9 @@ import React, { Component, useState } from 'react';
 import axios from 'axios';
 import { message } from 'antd';
 import swal from 'sweetalert';
+import { Redirect } from 'react-router-dom';
 //import {ReactPasswordStrength} from 'react-password-strength';
-import PasswordStregthMeter from './PasswordStrengthMeter';
+//import PasswordStregthMeter from './PasswordStrengthMeter';
 
 export default class CreateUser extends Component {
     constructor(props) {
@@ -70,7 +71,6 @@ export default class CreateUser extends Component {
             email: this.state.email,
             password: this.state.password,
             role: this.state.role
-            
         }
 
         
@@ -78,7 +78,8 @@ export default class CreateUser extends Component {
         .then(res => {
             if (res.data === 'User added!'){
                 swal("Registration Complete", "You are now ThesisQ member", "success");
-                // window.location = '/login';
+                //return <Redirect to="/login" />
+                this.props.history.push('/login')
             }
 
             else if (res.data.status === 'email_error'){
@@ -99,8 +100,6 @@ export default class CreateUser extends Component {
             
             else {
                 swal("Oppss","Something is not okay, try again", "error");
-            
-               
             }
 
             //console.log(res.data.status);

@@ -8,12 +8,19 @@ import axios from 'axios';
 import CreateUser from './components/user-create.component';
 import swal from 'sweetalert';
 
+var jwt = require('jsonwebtoken');
+
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
 
 
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        
     }
 
     loginUser(user_id, pass){
@@ -21,19 +28,23 @@ export default class Login extends Component {
             user_id: user_id,
             password: pass
         }
-
-        axios.post ('http://localhost:5000/users/login', user)
+        
+        axios.post('http://localhost:5000/users/login', user)
         .then(res => {
-
-          if (res.data.status === 'login_ok'){
-            swal("Welcome back",+user.user_id,"Success");
-          }
-          else if (res.data.status === 'email_error_login'){
-            swal("Invalid email","Try again","Warning" );
-          }
-
-          else if (res.data.status === 'password_error_login'){
-            swal("Invalid Password","Password does not match","Warning");
+          //console.log(res.data.token);
+          if (res.data.status === 'success') {
+              setCookie("username", JSON.stringify(res.data.token), 1);
+              // localStorage.setItem("TOKEN_KEY", JSON.stringify(res.data.token));
+              localStorage.setItem("TOKEN_KEY", "haii");
+              swal("Welcome back", user.user_id, "Success");
+              this.props.history.push('/');
+            
+          }else if (res.data.status === 'email_error_login'){
+              swal("Invalid email", "Try again", "Warning" );
+          }else if (res.data.status === 'password_error_login'){
+              swal("Invalid Password", "Password does not match", "Warning");
+          }else if(res.data.status === "empty") {
+              swal("Empty", "Email or username was empty", "Warning");
           }
         });
         //console.log("login user " +user)
