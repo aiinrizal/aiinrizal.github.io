@@ -6,7 +6,6 @@ var jwt = require ('jsonwebtoken');
 let User = require('../models/user.model');
 var TOKEN_KEY;
 
-
 // function setCookie(cname, cvalue, exdays) {
 //     var d = new Date();
 //     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -145,7 +144,7 @@ router.route('/login').post((req, res, next) => {
                     },
                     "secret",
                     {
-                        expiresIn: "1h"
+                        expiresIn: "1d"
                     }
                 );
 

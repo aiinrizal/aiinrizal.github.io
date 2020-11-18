@@ -34,6 +34,10 @@ function Navbar() {
                         </li>
 
                         <li className="navbar-item">
+                            <Link to="/login" className="nav-link">Login</Link>
+                        </li>
+
+                        <li className="navbar-item">
                             <Link to="/logout" className="nav-link">Logout</Link>
                         </li>
                         

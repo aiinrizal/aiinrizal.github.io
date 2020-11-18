@@ -7,15 +7,9 @@ import App from './App';
 import axios from 'axios';
 import CreateUser from './components/user-create.component';
 import swal from 'sweetalert';
-
+import Cookies from 'js-cookie';
 var jwt = require('jsonwebtoken');
 
-function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays*24*60*60*1000));
-  var expires = "expires="+ d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
 
 
 export default class Login extends Component {
@@ -33,12 +27,14 @@ export default class Login extends Component {
         .then(res => {
           //console.log(res.data.token);
           if (res.data.status === 'success') {
-              setCookie("username", JSON.stringify(res.data.token), 1);
+              //setCookie("username", JSON.stringify(res.data.token), 1);
               // localStorage.setItem("TOKEN_KEY", JSON.stringify(res.data.token));
-              localStorage.setItem("TOKEN_KEY", "haii");
+              // localStorage.setItem("TOKEN_KEY", "haii");
+              localStorage.setItem("HELLO", "hello");
+              Cookies.set("TOKEN_ME", "test", { expires: 1, domain: "http://localhost:3000" });
+
               swal("Welcome back", user.user_id, "Success");
               this.props.history.push('/');
-            
           }else if (res.data.status === 'email_error_login'){
               swal("Invalid email", "Try again", "Warning" );
           }else if (res.data.status === 'password_error_login'){
@@ -53,42 +49,29 @@ export default class Login extends Component {
 
     render(){
         return (
-<div>
-<form onSubmit={(event) => {
-    event.preventDefault();
-    const user_id = event.target.user_id.value;
-    const password = event.target.Password.value;
-    this.loginUser(user_id,password)
-    
-   // console.log("try" +user_id +password)
+          <div>
+            <form onSubmit={(event) => {
+                event.preventDefault();
+                const user_id = event.target.user_id.value;
+                const password = event.target.Password.value;
+                this.loginUser(user_id,password)
+            }}>
+              <div className="form-group">
+                <label>User ID</label>
+                <input  type="number" className="form-control" name="user_id"></input>
+                <small className="form-text text-muted">We'll never share your ID with anyone else.</small>
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input  type="password" className="form-control" name="Password"></input>
+              </div>
+              
+              <button type="submit" className="btn btn-primary"><center>Submit</center></button>
 
-}}>
-  <div className="form-group">
-    <label>User ID</label>
-    <input  type="number" 
-            className="form-control" 
-            name="user_id"
-        
-    ></input>
-    <small className="form-text text-muted">We'll never share your ID with anyone else.</small>
-  </div>
-  <div className="form-group">
-    <label>Password</label>
-
-    <input  type="password" 
-            className="form-control" 
-            name="Password"
-    ></input>
-  </div>
-  
-  <button type="submit" className="btn btn-primary"><center>Submit</center></button>
-
-  <br /><h5><center>Don't have account? <Link to="/register">Register with USIM Official email</Link></center></h5> 
-  
-
-</form>
-</div>
-        )
-        
+              <br />
+              <h5><center>Don't have account? <Link to="/register">Register with USIM Official email</Link></center></h5> 
+            </form>
+          </div>
+        );
     }
 }
