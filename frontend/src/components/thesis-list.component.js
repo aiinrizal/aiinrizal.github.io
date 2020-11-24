@@ -60,6 +60,7 @@ ThesisList() {
 }
 
 handleChange = event => {
+
     this.setState({ filter: event.target.value });
 };
 
@@ -82,6 +83,11 @@ render(){
             }} type="button" class="btn btn-info text-right">Generate Report</button>
             <div id="ThesisList">
                             <h3><center>Thesis Management System</center></h3>
+                            <div>
+                                <input type="text" className="input" placeholder="Search Thesis Keyword" />
+
+                                
+                            </div>
                 <table className="table table-striped" style={{ marginTop: 20 }}>
                     <thead>
                         <tr>

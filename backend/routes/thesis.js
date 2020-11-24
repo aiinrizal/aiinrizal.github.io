@@ -2,6 +2,7 @@ const router = require('express').Router();
 let Thesis = require('../models/thesis.model');
 
 router.route('/').get((req, res)=> {
+    eval(require('locus'));
     Thesis.find()
     .then(theses => res.json(theses))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -52,13 +53,15 @@ router.route('/:user_id').delete((req, res) => {
 });
 
 
-router.route('/search').get((req,res,next) => {
-    var keyword = req.query.thesis_keyword;
-    console.log("keyword: " +keyword)
+router.route('/search').post((req,res) => {
+   // var keyword = req.query.thesis_keyword;
+    //console.log("keyword: " +keyword)
 
+    
     Thesis.find({ 
-        $text: { $search: keyword}
-    }, function (err, result) {
+         "$text": { "$search" : req.body.thesis_keyword}
+     }, 
+    function (err, result) {
         res.json(result);
     })
     .then(thesis => {

@@ -125,7 +125,7 @@ axios.get('http://localhost:5000/thesis/')
         }
 
         onSubmit(e) {
-            alert('Thesis successfully added');
+            alert('Thesis successfully update');
             e.preventDefault();
 
             const newThesis = {
